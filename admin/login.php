@@ -124,37 +124,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json'
       ]);
-      $response = curl_exec($ch);
-      curl_close($ch);
-
-      // Decode response
-      $response = json_decode($response);
 
       // var_dump($response);
 
       // Disable error message
       error_reporting(0);
 
-      // Check if curl request is success
-      if ($response->access_token) {
+      do {
 
-        // Set session admin
-        $_SESSION['admin'] = $response->access_token;
-        $_SESSION['admin_id'] = $response->id;
-        $_SESSION['admin_username'] = $response->username;
+        $response = curl_exec($ch);
 
-        // Redirect to index.php
-        header("Location: index.php");
-        exit();
+        // Decode response
+        $response = json_decode($response);
+        
+        // Check if curl request is success
+        if ($response->access_token) {
 
-      } else {
-          // alert failed login
-        echo <<<EOL
-        <script>
-          $('.alert').show();
-        </script>
-        EOL;
-      }
+          // Set session admin
+          $_SESSION['admin'] = $response->access_token;
+          $_SESSION['admin_id'] = $response->id;
+          $_SESSION['admin_username'] = $response->username;
+
+          // Redirect to index.php
+          header("Location: index.php");
+          exit();
+
+        } else {
+            // alert failed login
+          echo <<<EOL
+          <script>
+            $('.alert').show();
+          </script>
+          EOL;
+        }
+      }while(!$response);
+
+      curl_close($ch);
 
     }
   }

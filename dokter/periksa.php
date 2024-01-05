@@ -2,8 +2,8 @@
 
 <div class="col-12">
 <div class="card">
-    <div class="card-header bg-primary">
-      <h3 class="card-title">Jadwal Periksa</h3>
+    <div class="card-header">
+      <h3 class="card-title">Daftar Periksa Pasien</h3>
     </div>
 
     <!-- /.card-header -->
@@ -11,9 +11,12 @@
       <table id="example2" class="table table-bordered table-hover">
         <thead>
         <tr>
+          <th>Tgl Periksa</th>
+          <th>No Antrian</th>
+          <th>Poli</th>
           <th>Hari</th>
           <th>Jam</th>
-          <th>Poli</th>
+          <th>Pasien</th>
           <th>Aksi</th>
         </tr>
         </thead>
@@ -40,7 +43,7 @@
 
     // ajax get data from https://express.dimaspadma.my.id/jadwal-periksa
     $.ajax({
-    url: `https://express.dimaspadma.my.id/jadwal-periksa/dokter/${id}`,
+    url: `https://express.dimaspadma.my.id/periksa/dokter/${id}`,
     type: 'GET',
     dataType: 'json',
     success: function(result) {
@@ -48,13 +51,18 @@
         // console.log(jadwal)
         $('#body-table').append(`
           <tr class="text-bg-success">
-            <td>${jadwal.hari}</td>
+            <td>${jadwal.tgl_periksa}</td>
+            <td>${jadwal.no_antrian}</td>
+            <td>${jadwal.jadwalPeriksa.poli.nama_poli}</td>
+            <td>${jadwal.jadwalPeriksa.hari}</td>
             <td>
-              ${jadwal.jam_mulai} - ${jadwal.jam_selesai}
-              ${jamActive(jadwal.jam_mulai, jadwal.jam_selesai) ? '<span class="badge badge-success">Aktif</span>' : ''}
+              ${jadwal.jadwalPeriksa.jam_mulai} - ${jadwal.jadwalPeriksa.jam_selesai}
+              ${jamActive(jadwal.jadwalPeriksa.jam_mulai, jadwal.jadwalPeriksa.jam_selesai) ? '<span class="badge badge-success">Aktif</span>' : ''}
             </td>
-            <td>${jadwal.poli.nama_poli}</td>
-            <td></td>
+            <td>${jadwal.pasien.nama}</td>
+            <td>
+              <a href="detail-periksa.php?id=${jadwal.id_periksa}" class="btn btn-success btn-sm">Periksa</a>
+            </td>
           </tr>
         `);
       });

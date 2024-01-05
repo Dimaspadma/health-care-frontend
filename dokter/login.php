@@ -124,37 +124,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json'
       ]);
-      $response = curl_exec($ch);
-      curl_close($ch);
-
-      // Decode response
-      $response = json_decode($response);
-
+    
       // var_dump($response);
 
       // Disable error message
       error_reporting(0);
 
-      // Check if curl request is success
-      if ($response->access_token) {
+      do {
 
-        // Set session dokter
-        $_SESSION['dokter'] = $response->access_token;
-        $_SESSION['dokter_id'] = $response->id;
-        $_SESSION['dokter_nama'] = $response->nama;
+        $response = curl_exec($ch);
+      
+        // Decode response
+        $response = json_decode($response);
+        
+        // Check if curl request is success
+        if ($response->access_token) {
 
-        // Redirect to index.php
-        header("Location: index.php");
-        exit();
+          // Set session dokter
+          $_SESSION['dokter'] = $response->access_token;
+          $_SESSION['dokter_id'] = $response->id;
+          $_SESSION['dokter_nama'] = $response->nama;
 
-      } else {
-          // alert failed login
-        echo <<<EOL
-        <script>
-          $('.alert').show();
-        </script>
-        EOL;
-      }
+          // Redirect to index.php
+          header("Location: index.php");
+          exit();
+
+        } else {
+            // alert failed login
+          echo <<<EOL
+          <script>
+            $('.alert').show();
+          </script>
+          EOL;
+        }
+        
+      }while(!$response);
+
+      curl_close($ch);
 
     }
   }

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['admin'])) {
+if (!isset($_SESSION['pasien'])) {
   header("Location: login.php");
   exit();
 }
@@ -9,13 +9,8 @@ if (!isset($_SESSION['admin'])) {
 include_once '../header.php';
 ?>
 
-  <!-- Preloader -->
-  <!-- <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="../dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-  </div> -->
-
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -61,8 +56,9 @@ include_once '../header.php';
           <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a class="username d-block" href="">User</a>
+          <a href="#" class="d-block username">Alexander Pierce</a>
         </div>
+        <input type="hidden" id="id">
       </div>
 
       <!-- SidebarSearch Form -->
@@ -81,29 +77,10 @@ include_once '../header.php';
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="daftar-obat.php" class="nav-link">
+            <a href="periksa.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Daftar Obat
-                <span class="right badge badge-danger">Admin</span>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="daftar-dokter.php" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Daftar Dokter
-                <span class="right badge badge-danger">Admin</span>
-              </p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="daftar-pasien.php" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Daftar Pasien
-                <span class="right badge badge-danger">Admin</span>
+                Periksa
               </p>
             </a>
           </li>
@@ -134,7 +111,7 @@ include_once '../header.php';
     </div>
     <!-- /.content-header -->
 
-  <!-- Main content -->
-  <section class="content">
+    <!-- Main content -->
+    <section class="content">
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->

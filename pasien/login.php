@@ -124,14 +124,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json'
       ]);
-      $response = curl_exec($ch);
-      curl_close($ch);
+      
+      do {
+        $response = curl_exec($ch);
 
-      // Decode response
-      $response = json_decode($response);
+        // Decode response
+        $response = json_decode($response);
 
-      // Check if curl request is success
-      if ($response) {
+        // Check if curl request is success
+        if ($response->status) {
+
+          if ($response->status == "success"){
+            // Set session pasien
+            $_SESSION['pasien'] = "SUCCESS";
+            $_SESSION['pasien_id'] = $response->id;
+            $_SESSION['pasien_nama'] = $response->nama;
+
+            // Redirect to index.php
+            header("Location: index.php");
+            exit();
+          }
+        }
 
         // alert failed login
         echo <<<EOL
@@ -139,15 +152,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           $('.alert').show();
         </script>
         EOL;
-      } else {
-          // Set session pasien
-          $_SESSION['pasien'] = "SUCCESS";
+      } while (!$response);
 
-          // Redirect to index.php
-          header("Location: index.php");
-          exit();
-      }
-
+      curl_close($ch);
     }
   }
 }

@@ -90,6 +90,15 @@ include_once '../header.php';
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="periksa.php" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Periksa
+                <span class="right badge badge-primary">Dokter</span>
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

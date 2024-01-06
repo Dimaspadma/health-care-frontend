@@ -48,7 +48,7 @@
     type: 'GET',
     dataType: 'json',
     success: function(result) {
-      result.forEach(pasien => {
+      result.data.forEach(pasien => {
         console.log(pasien)
         $('#body-table').append(`
           <tr>

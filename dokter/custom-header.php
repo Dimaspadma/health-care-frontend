@@ -91,7 +91,7 @@ include_once '../header.php';
             </a>
           </li>
           <li class="nav-item">
-            <a href="periksa.php" class="nav-link">
+            <a href="daftar-periksa.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Periksa

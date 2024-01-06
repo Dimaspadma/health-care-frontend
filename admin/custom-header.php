@@ -107,6 +107,24 @@ include_once '../header.php';
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="daftar-periksa.php" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Daftar Periksa
+                <span class="right badge badge-danger">Admin</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="daftar-jadwal.php" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Daftar Jadwal
+                <span class="right badge badge-danger">Admin</span>
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

@@ -26,15 +26,12 @@
 
     var_dump($response);
 
-    // Check if response
-    // Check if curl request is success
-    if ($response->status == "error") {
+    if (isset($response->error)){
       header("Location: daftar-obat.php?status=fail&message=Stok Gagal ditambahkan");
       exit();
-
-    } else {
-      header("Location: daftar-obat.php?status=success&message=Stok Berhasil ditambahkan");
-      exit();
     }
+
+    header("Location: daftar-obat.php?status=success&message=Stok Berhasil ditambahkan");
+      exit();
   }
 ?>

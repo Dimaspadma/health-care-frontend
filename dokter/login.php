@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (isset($_SESSION['dokter'])) {
+  header("Location: index.php");
+  exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,19 +103,10 @@
 </html>
 
 <?php
-
-session_start();
-
-if (isset($_SESSION['dokter'])) {
-  header("Location: index.php");
-  exit();
-}
-
 // check if request method is post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
   if (isset($_POST['submit'])){
-
     // var_dump($_POST);
 
     // check if email and password are not empty
@@ -114,54 +115,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $nama = $_POST['nama'];
       $password = $_POST['password'];
 
-      // Use curl to performt POST request to "https://express.dimaspadma.my.id with body json { nama, password }
-      $ch = curl_init("https://express.dimaspadma.my.id/dokter/login");
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+      // Set data
+      $data = [
         'nama' => $nama,
         'password' => $password
-      ]));
+      ];
+
+      // Curl POST request
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, "https://express.dimaspadma.my.id/dokter/login");
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
       curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json'
       ]);
-    
-      // var_dump($response);
 
-      // Disable error message
-      error_reporting(0);
-
-      do {
-
-        $response = curl_exec($ch);
-      
-        // Decode response
-        $response = json_decode($response);
-        
-        // Check if curl request is success
-        if ($response->access_token) {
-
-          // Set session dokter
-          $_SESSION['dokter'] = $response->access_token;
-          $_SESSION['dokter_id'] = $response->id;
-          $_SESSION['dokter_nama'] = $response->nama;
-
-          // Redirect to index.php
-          header("Location: index.php");
-          exit();
-
-        } else {
-            // alert failed login
-          echo <<<EOL
-          <script>
-            $('.alert').show();
-          </script>
-          EOL;
-        }
-        
-      }while(!$response);
+      $output = curl_exec($ch);
+      // var_dump($output);
 
       curl_close($ch);
+      
+      $response = json_decode($output);
+      // var_dump($response);
 
+      // Error handling
+      if ($response->error){
+        echo <<<EOL
+        <script>
+          $('.alert').show();
+        </script>
+        EOL;
+        exit();
+      }
+
+      // Success handling
+      $_SESSION['dokter'] = $response->data->access_token;
+      $_SESSION['dokter_id'] = $response->data->id;
+      $_SESSION['dokter_nama'] = $response->data->nama;
+
+      header("Location: index.php");
+      exit();
     }
   }
 }

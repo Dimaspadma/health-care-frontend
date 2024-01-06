@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (isset($_SESSION['admin'])) {
+  header("Location: index.php");
+  exit();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,13 +103,6 @@
 
 <?php
 
-session_start();
-
-if (isset($_SESSION['admin'])) {
-  header("Location: index.php");
-  exit();
-}
-
 // check if request method is post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -114,52 +116,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $username = $_POST['username'];
       $password = $_POST['password'];
 
-      // Use curl to performt POST request to "https://express.dimaspadma.my.id with body json { username, password }
-      $ch = curl_init("https://express.dimaspadma.my.id/admin/login");
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+      $data = [
         'username' => $username,
         'password' => $password
-      ]));
+      ];
+
+      // curl request
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, "https://express.dimaspadma.my.id/admin/login");
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
       curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json'
       ]);
 
-      // var_dump($response);
-
-      // Disable error message
-      error_reporting(0);
-
-      do {
-
-        $response = curl_exec($ch);
-
-        // Decode response
-        $response = json_decode($response);
-        
-        // Check if curl request is success
-        if ($response->access_token) {
-
-          // Set session admin
-          $_SESSION['admin'] = $response->access_token;
-          $_SESSION['admin_id'] = $response->id;
-          $_SESSION['admin_username'] = $response->username;
-
-          // Redirect to index.php
-          header("Location: index.php");
-          exit();
-
-        } else {
-            // alert failed login
-          echo <<<EOL
-          <script>
-            $('.alert').show();
-          </script>
-          EOL;
-        }
-      }while(!$response);
+      $output = curl_exec($ch);
 
       curl_close($ch);
+
+      $response = json_decode($output);
+
+      // Error handling
+      if (isset($response->error)){
+        echo <<<EOL
+        <script>
+          $('.alert').show();
+        </script>
+        EOL;
+        exit();
+      }
+
+      // Set session admin
+      $_SESSION['admin'] = $response->data->access_token;
+      $_SESSION['admin_id'] = $response->data->id;
+      $_SESSION['admin_username'] = $response->data->username;
+
+      // Redirect to index.php
+      header("Location: index.php");
+      exit();
 
     }
   }

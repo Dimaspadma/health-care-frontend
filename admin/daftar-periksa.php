@@ -17,10 +17,11 @@
       <table id="example2" class="table table-bordered table-hover">
         <thead>
         <tr>
-          <th>NIP</th>
-          <th>Nama</th>
-          <th>Alamat</th>
-          <th>NO_HP</th>
+          <th>Pasien</th>
+          <th>Dokter</th>
+          <th>Tgl Periksa</th>
+          <th>Status</th>
+          <th>Biaya</th>
         </tr>
         </thead>
         <tbody id="body-table">
@@ -43,18 +44,22 @@
 
     // ajax get data from https://express.dimaspadma.my.id/jadwal-periksa
     $.ajax({
-    url: 'https://express.dimaspadma.my.id/dokter',
+    url: 'https://express.dimaspadma.my.id/periksa',
     type: 'GET',
     dataType: 'json',
     success: function(result) {
-      result.data.forEach(dokter => {
-        console.log(dokter)
+      console.log(result.data)
+      result.data.forEach(data => {
+        
         $('#body-table').append(`
           <tr>
-            <td>${dokter.nip}</td>
-            <td>${dokter.nama}</td>
-            <td>${dokter.alamat}</td>
-            <td>${dokter.no_hp}</td>
+            <td>${data.pasien.nama}</td>
+            <td>${data.jadwalPeriksa.dokter.nama}</td>
+            <td>${data.tgl_periksa}</td>
+            <td>
+              ${data.detailPeriksa ? '<h5><span class="right badge badge-success">Sudah</span></h5>' : '<h5><span class="right badge badge-danger">Belum</span></h5>' }
+            </td>
+            <td>${data.detailPeriksa ? data.detailPeriksa.biaya_periksa : 0 }</td>
           </tr>
         `);
       });
@@ -74,45 +79,3 @@
   });
 
 </script>
-
-<?php 
-
-var_dump($_GET);
-
-if(isset($_GET['message'])){
-  $message = $_GET['message'];
-} else {
-  $message = '';
-}
-
-if(isset($_GET['status'])){
-  if($_GET['status'] == 'success'){
-    echo <<<EOL
-    <script>
-      $(document).Toasts('create', {
-        class: 'bg-success',
-        title: 'Berhasil',
-        body: '$message'
-      })
-    </script>
-    EOL;
-  } else if($_GET['status'] == 'fail'){
-    echo <<<EOL
-    <script>
-      $(document).Toasts('create', {
-        class: 'bg-danger',
-        title: 'Gagal',
-        body: '$message'
-      })
-    </script>
-    EOL;
-  }
-
-  // Remove status from url via javascript
-  echo <<<EOL
-  <script>
-    window.history.replaceState({}, document.title, "/" + "puskesmas/admin/daftar-obat.php");
-  </script>
-  EOL;
-}
-?>

@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+if (isset($_SESSION['pasien'])) {
+  header("Location: index.php");
+  exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,13 +103,6 @@
 </html>
 
 <?php
-
-session_start();
-
-if (isset($_SESSION['pasien'])) {
-  header("Location: index.php");
-  exit();
-}
 
 // check if request method is post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

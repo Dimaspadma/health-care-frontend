@@ -8,3 +8,5 @@ unset($_SESSION['dokter_nama']);
 
 // redirect to login.php
 header("Location: login.php");
+
+?>

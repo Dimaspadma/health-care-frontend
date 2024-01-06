@@ -28,16 +28,12 @@
 
     var_dump($response);
 
-    // Check if response
-    // Check if curl request is success
-    if ($response->message) {
-
+    if (isset($response->error)){
       header("Location: daftar-obat.php?status=fail&message=Obat Gagal Ditambahkan");
       exit();
-
-    } else {
-      header("Location: daftar-obat.php?status=success&message=Obat Berhasil Ditambahkan");
-      exit();
     }
+
+    header("Location: daftar-obat.php?status=success&message=Obat Berhasil Ditambahkan");
+      exit();
   }
 ?>

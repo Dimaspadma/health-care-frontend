@@ -154,7 +154,7 @@
     type: 'GET',
     dataType: 'json',
     success: function(result) {
-      result.forEach(obat => {
+      result.data.forEach(obat => {
         $('#body-table').append(`
           <tr>
             <td>${obat.nama_obat}</td>
@@ -216,12 +216,12 @@
           // Change form url to edit
           $('form').attr('action', 'edit-obat.php');
           
-          $('input[name="id"]').val(result.id);
-          $('input[name="nama_obat"]').val(result.nama_obat);
-          $('input[name="kemasan"]').val(result.kemasan);
-          $('input[name="harga_format"]').val(formatRupiah(result.harga.toString(), 'Rp. '));
-          $('input[name="harga"]').val(result.harga);
-          $('input[name="stok"]').val(result.stok);
+          $('input[name="id"]').val(result.data.id);
+          $('input[name="nama_obat"]').val(result.data.nama_obat);
+          $('input[name="kemasan"]').val(result.data.kemasan);
+          $('input[name="harga_format"]').val(formatRupiah(result.data.harga.toString(), 'Rp. '));
+          $('input[name="harga"]').val(result.data.harga);
+          $('input[name="stok"]').val(result.data.stok);
 
           // Make field stok read only
           $('input[name="stok"]').attr('readonly', true);
@@ -243,12 +243,12 @@
           // Change form url to edit
           $('form').attr('action', 'tambah-stok.php');
           
-          $('input[name="id"]').val(result.id);
-          $('input[name="nama_obat"]').val(result.nama_obat);
-          $('input[name="kemasan"]').val(result.kemasan);
-          $('input[name="harga_format"]').val(formatRupiah(result.harga.toString(), 'Rp. '));
-          $('input[name="harga"]').val(result.harga);
-          $('input[name="stok"]').val(result.stok);
+          $('input[name="id"]').val(result.data.id);
+          $('input[name="nama_obat"]').val(result.data.nama_obat);
+          $('input[name="kemasan"]').val(result.data.kemasan);
+          $('input[name="harga_format"]').val(formatRupiah(result.data.harga.toString(), 'Rp. '));
+          $('input[name="harga"]').val(result.data.harga);
+          $('input[name="stok"]').val(result.data.stok);
 
           // Create new field tambah stok below stok
           $('#div-stok').after(`

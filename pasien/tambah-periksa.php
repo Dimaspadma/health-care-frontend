@@ -34,7 +34,7 @@ ob_start();
 
     // Check if response
     // Check if curl request is success
-    if ($response->message) {
+    if (isset($response->error)) {
 
       header("Location: periksa.php?status=fail&message=Periksa Gagal Ditambahkan");
       exit();

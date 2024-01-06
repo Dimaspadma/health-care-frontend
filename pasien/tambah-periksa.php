@@ -1,4 +1,6 @@
 <?php 
+ob_start();
+
   if (isset($_POST['tambah-periksa'])) {
 
     var_dump($_POST);
@@ -42,7 +44,7 @@
       exit();
     }
 
-
-
   }
+
+ob_end_flush();
 ?>

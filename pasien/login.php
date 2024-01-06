@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // var_dump($response);
 
       // Error handling
-      if ($response->error){
+      if (isset($response->error)){
         echo <<<EOL
         <script>
           $('.alert').show();

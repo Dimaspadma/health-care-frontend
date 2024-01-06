@@ -86,6 +86,44 @@
   <!-- /.card -->
 
 </div>
+
+<div class="row">
+<div class="col-5">
+</div>
+<div class="col-7">
+    <div class="card card-warning">
+      <div class="card-header">
+        <h3 class="card-title">Menunggu Periksa</h3>
+      </div>
+      <!-- /.card-header -->
+      <div class="card-body">
+        <!-- Date and time -->
+        <div class="form-group">
+          <table id="example2" class="table table-bordered table-hover">
+            <thead>
+            <tr>
+              <th>Tgl Periksa</th>
+              <th>No Antrian</th>
+              <th>Poli</th>
+              <th>Hari</th>
+              <th>Jam</th>
+              <th>Dokter</th>
+            </tr>
+            </thead>
+            <tbody id="menunggu-periksa">
+              <!-- Auto generated -->
+            </tbody>
+            <tfoot>
+            </tfoot>
+          </table>
+        </div>
+      <!-- /.card-body -->
+      </div>
+      <!-- /.card-body -->
+    </div>
+  </div>
+  <!-- /.card -->
+</div>
   
 <?php include_once './custom-footer.php' ?>
 <script>
@@ -104,7 +142,7 @@
     type: 'GET',
     dataType: 'json',
     success: function(result) {
-      result.forEach(poli => {
+      result.data.forEach(poli => {
         // console.log(poli)
         $('#listPoli').append(`
           <option value="${poli.id}">${poli.nama_poli}</option>
@@ -143,7 +181,8 @@
   const showListJadwal = (id) => {
     // ajax get data from https://express.dimaspadma.my.id/jadwal-periksa
     $.get(`https://express.dimaspadma.my.id/jadwal-periksa/poli/${id}`, function(result) {
-      result.forEach(jadwal => {
+      // console.log(result)
+      result.data.forEach(jadwal => {
         // console.log(jadwal)
         $('#listJadwal').append(`
           <option value="${jadwal.id}">${jadwal.hari} ${jadwal.jam_mulai} - ${jadwal.jam_selesai}</option>
@@ -157,14 +196,35 @@
     });
 
     const pasienId = $('#id').val();
-    $.get(`https://express.dimaspadma.my.id/periksa/pasien/${pasienId}`, function(result) {
+    $.get(`https://express.dimaspadma.my.id/periksa/pasien/${pasienId}?check=sudah`, function(result) {
+      console.log(result)
 
       // Clear first
       $('#body-table').empty();
 
-      result.forEach(jadwal => {
+      result.data.forEach(jadwal => {
         $('#body-table').append(`
           <tr class="text-bg-success">
+            <td>${jadwal.tgl_periksa}</td>
+            <td>${jadwal.no_antrian}</td>
+            <td>${jadwal.jadwalPeriksa.poli.nama_poli}</td>
+            <td>${jadwal.jadwalPeriksa.hari}</td>
+            <td>${jadwal.jadwalPeriksa.jam_mulai} - ${jadwal.jadwalPeriksa.jam_selesai}</td>
+            <td>${jadwal.jadwalPeriksa.dokter.nama}</td>
+          </tr>
+        `);
+      });
+    });
+
+    $.get(`https://express.dimaspadma.my.id/periksa/pasien/${pasienId}?check=belum`, function(result) {
+      console.log(result)
+
+      // Clear first
+      $('#menunggu-periksa').empty();
+
+      result.data.forEach(jadwal => {
+        $('#menunggu-periksa').append(`
+          <tr class="text-bg-warning">
             <td>${jadwal.tgl_periksa}</td>
             <td>${jadwal.no_antrian}</td>
             <td>${jadwal.jadwalPeriksa.poli.nama_poli}</td>

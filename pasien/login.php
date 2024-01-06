@@ -117,47 +117,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $nama = $_POST['nama'];
       $no_ktp = $_POST['no_ktp'];
 
-      // Use curl to performt POST request to "https://express.dimaspadma.my.id with body json { nama, no_ktp }
-      $ch = curl_init("https://express.dimaspadma.my.id/pasien/login");
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+      $data = [
         'nama' => $nama,
         'no_ktp' => $no_ktp
-      ]));
+      ];
+
+      
+      // Curl POST request
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, "https://express.dimaspadma.my.id/pasien/login");
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
       curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json'
       ]);
+
+      $output = curl_exec($ch);
+      // var_dump($output);
+
+      curl_close($ch);
       
-      do {
-        $response = curl_exec($ch);
+      $response = json_decode($output);
+      // var_dump($response);
 
-        // Decode response
-        $response = json_decode($response);
-
-        // Check if curl request is success
-        if ($response->status) {
-
-          if ($response->status == "success"){
-            // Set session pasien
-            $_SESSION['pasien'] = "SUCCESS";
-            $_SESSION['pasien_id'] = $response->id;
-            $_SESSION['pasien_nama'] = $response->nama;
-
-            // Redirect to index.php
-            header("Location: index.php");
-            exit();
-          }
-        }
-
-        // alert failed login
+      // Error handling
+      if ($response->error){
         echo <<<EOL
         <script>
           $('.alert').show();
         </script>
         EOL;
-      } while (!$response);
+        exit();
+      }
 
-      curl_close($ch);
+      // Success handling
+      // Set session pasien
+      $_SESSION['pasien'] = "SUCCESS";
+      $_SESSION['pasien_id'] = $response->data->id;
+      $_SESSION['pasien_nama'] = $response->data->nama;
+
+      header("Location: index.php");
+      exit();
     }
   }
 }

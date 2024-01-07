@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 
-if (isset($_SESSION['pasien'])) {
+if (isset($_SESSION['dokter'])) {
   header("Location: index.php");
   exit();
 }

@@ -181,11 +181,11 @@
   const showListJadwal = (id) => {
     // ajax get data from https://express.dimaspadma.my.id/jadwal-periksa
     $.get(`https://express.dimaspadma.my.id/jadwal-periksa/poli/${id}`, function(result) {
-      // console.log(result)
+      console.log(result)
       result.data.forEach(jadwal => {
         // console.log(jadwal)
         $('#listJadwal').append(`
-          <option value="${jadwal.id}">${jadwal.hari} ${jadwal.jam_mulai} - ${jadwal.jam_selesai}</option>
+          <option value="${jadwal.id}">${jadwal.dokter.nama} | ${jadwal.hari} ${jadwal.jam_mulai} - ${jadwal.jam_selesai}</option>
         `);
 
         if (!fisrtJadwal) {

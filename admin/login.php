@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 
 if (isset($_SESSION['admin'])) {
@@ -31,7 +32,9 @@ if (isset($_SESSION['admin'])) {
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">Login Admin</p>
+      <p>User: test</p>
+      <p>Pass: test123</p>
 
       <form action="" method="post">
         <div class="input-group mb-3">
@@ -160,4 +163,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
+ob_end_flush();
 ?>

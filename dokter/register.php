@@ -33,7 +33,7 @@ if (isset($_SESSION['pasien'])) {
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Login Pasien</p>
+      <p class="login-box-msg">Register Dokter</p>
 
       <form action="" method="post">
         <div class="input-group mb-3">
@@ -45,7 +45,7 @@ if (isset($_SESSION['pasien'])) {
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="text" name="no_ktp" class="form-control" placeholder="No KTP">
+          <input type="password" name="password" class="form-control" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -53,7 +53,31 @@ if (isset($_SESSION['pasien'])) {
           </div>
         </div>
         <div class="input-group mb-3">
-          <a href="register.php">Register</a>
+          <input type="text" name="nip" class="form-control" placeholder="nip">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" name="alamat" class="form-control" placeholder="Alamat">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" name="no_hp" class="form-control" placeholder="No HP">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <a href="login.php">Sudah punya akun</a>
         </div>
         <div class="row">
           <div class="col-8">
@@ -116,20 +140,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // var_dump($_POST);
 
     // check if email and password are not empty
-    if (isset($_POST['nama']) && isset($_POST['no_ktp'])) {
+    if (isset($_POST['nama']) && isset($_POST['password'])) {
 
       $nama = $_POST['nama'];
-      $no_ktp = $_POST['no_ktp'];
+      $password = $_POST['password'];
+      $nip = $_POST['nip'];
+      $alamat = $_POST['alamat'];
+      $no_hp = $_POST['no_hp'];
 
       $data = [
         'nama' => $nama,
-        'no_ktp' => $no_ktp
+        'password' => $password,
+        'nip' => $nip,
+        'alamat' => $alamat,
+        'no_hp' => $no_hp
       ];
 
       
       // Curl POST request
       $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, "https://express.dimaspadma.my.id/pasien/login");
+      curl_setopt($ch, CURLOPT_URL, "https://express.dimaspadma.my.id/dokter/register");
       curl_setopt($ch, CURLOPT_POST, 1);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
@@ -145,6 +175,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $response = json_decode($output);
       // var_dump($response);
 
+      // exit();
+
       // Error handling
       if (isset($response->error)){
         echo <<<EOL
@@ -156,10 +188,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
 
       // Success handling
-      // Set session pasien
-      $_SESSION['pasien'] = "SUCCESS";
-      $_SESSION['pasien_id'] = $response->data->id;
-      $_SESSION['pasien_nama'] = $response->data->nama;
+      // Set session dokter
+      $_SESSION['dokter'] = "SUCCESS";
+      $_SESSION['dokter_id'] = $response->data->id;
+      $_SESSION['dokter_nama'] = $response->data->nama;
 
       header("Location: index.php");
       exit();

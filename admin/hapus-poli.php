@@ -1,15 +1,16 @@
 <?php 
 ob_start();
 
-  if (isset($_POST['hapus-obat'])) {
-    $id = $_POST['id'];
+  if (isset($_POST['hapus-poli'])) {
+
+    $id = $_POST['idPoli'];
 
     $data = [
       'id' => (int) $id,
     ];
 
     // curl request delete obat
-    $ch = curl_init('https://express.dimaspadma.my.id/obat/'.$id);
+    $ch = curl_init('https://express.dimaspadma.my.id/poli/'.$id);
 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -23,16 +24,16 @@ ob_start();
 
     $response = json_decode($response);
 
-    // var_dump($response);
+    var_dump($response);
 
     // Check if response
     // Check if curl request is success
     if (isset($response->error)) {
-      header("Location: daftar-obat.php?status=fail&message=Obat Gagal Dihapus");
+      header("Location: daftar-poli.php?status=fail&message=poli Gagal Dihapus");
       exit();
     }
 
-    header("Location: daftar-obat.php?status=success&message=Obat Berhasil Dihapus");
+    header("Location: daftar-poli.php?status=success&message=poli Berhasil Dihapus");
     exit();
   }
 

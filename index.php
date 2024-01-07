@@ -62,6 +62,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="dokter" class="btn btn-primary">Halaman Dokter </a>
               </div>
             </div>
+
+            <div class="card card-primary card-outline">
+              <div class="card-header">
+                <h5 class="card-title m-0">Admin</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Special title treatment</h6>
+
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="admin" class="btn btn-primary">Halaman Admin </a>
+              </div>
+            </div>
           </div>
           <!-- /.col-md-6 -->
         </div>

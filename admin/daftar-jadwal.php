@@ -120,11 +120,11 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="hapus-obat.php" method="post">
+      <form action="hapus-jadwal.php" method="post">
         <div class="modal-footer justify-content-between">
           <input type="hidden" name="id" value="">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Tidak</button>
-          <button type="submit" name="hapus-obat" class="btn btn-danger">Hapus</button>
+          <button type="submit" name="hapus-jadwal" class="btn btn-danger">Hapus</button>
         </div>
       </form>
     </div>
@@ -156,6 +156,7 @@
       type: 'GET',
       dataType: 'json',
       success: function(result) {
+        console.log(result)
         result.data.forEach(data => {
           $('#body-table').append(`
             <tr>
@@ -166,6 +167,7 @@
               <td>${data.poli.nama_poli}</td>
               <td>
                 <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modal-tambah" data-id="${data.id}">Edit</button>
+                ${data.periksa.length > 0 ? '' : '<button class="btn btn-danger btn-hapus" data-toggle="modal" data-target="#modal-hapus" data-id="'+data.id+'">Hapus</button>'}
               </td>
             </tr>
           `);
@@ -179,6 +181,11 @@
             "info": true,
             "autoWidth": false,
             "responsive": true,
+          });
+
+          $('.btn-hapus').on('click', function() {
+            var id = $(this).data('id');
+            $('input[name="id"]').val(id);
           });
 
           $('.btn-edit').on('click', function() {

@@ -90,6 +90,15 @@ include_once '../header.php';
             </a>
           </li>
           <li class="nav-item">
+            <a href="daftar-poli.php" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Daftar Poli
+                <span class="right badge badge-danger">Admin</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="daftar-dokter.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>

@@ -1,4 +1,6 @@
 <?php 
+ob_start();
+
   if (isset($_POST['tambah-obat'])) {
     
     $nama_obat = htmlspecialchars($_POST['nama_obat']);
@@ -34,6 +36,8 @@
     }
 
     header("Location: daftar-obat.php?status=success&message=Obat Berhasil Ditambahkan");
-      exit();
+    exit();
   }
+
+ob_end_flush();
 ?>

@@ -1,4 +1,6 @@
 <?php 
+ob_start();
+
   if (isset($_POST['tambah-obat'])) {
     
     $id = htmlspecialchars($_POST['id']);
@@ -24,7 +26,7 @@
 
     $response = json_decode($response);
 
-    var_dump($response);
+    // var_dump($response);
 
     if (isset($response->error)){
       header("Location: daftar-obat.php?status=fail&message=Stok Gagal ditambahkan");
@@ -32,6 +34,8 @@
     }
 
     header("Location: daftar-obat.php?status=success&message=Stok Berhasil ditambahkan");
-      exit();
+    exit();
   }
+
+ob_end_flush();
 ?>

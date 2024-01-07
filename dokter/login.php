@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 
 if (isset($_SESSION['dokter'])) {
@@ -32,7 +33,7 @@ if (isset($_SESSION['dokter'])) {
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
+      <p class="login-box-msg">Login Dokter</p>
 
       <form action="" method="post">
         <div class="input-group mb-3">
@@ -50,6 +51,9 @@ if (isset($_SESSION['dokter'])) {
               <span class="fas fa-lock"></span>
             </div>
           </div>
+        </div>
+        <div class="input-group mb-3">
+          <a href="register.php">Registrasi Dokter</a>
         </div>
         <div class="row">
           <div class="col-8">
@@ -160,4 +164,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
+ob_end_flush();
 ?>

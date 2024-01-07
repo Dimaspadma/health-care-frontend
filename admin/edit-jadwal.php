@@ -1,4 +1,5 @@
 <?php
+ob_start();
 
 // check if request method is post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -50,3 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     exit();
   }
 }
+
+ob_end_flush();
+?>

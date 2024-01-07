@@ -33,7 +33,7 @@ if (isset($_SESSION['pasien'])) {
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Login Pasien</p>
+      <p class="login-box-msg">Register Pasien</p>
 
       <form action="" method="post">
         <div class="input-group mb-3">
@@ -53,7 +53,23 @@ if (isset($_SESSION['pasien'])) {
           </div>
         </div>
         <div class="input-group mb-3">
-          <a href="register.php">Register</a>
+          <input type="text" name="alamat" class="form-control" placeholder="Alamat">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" name="no_hp" class="form-control" placeholder="No HP">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <a href="login.php">Sudah punya akun</a>
         </div>
         <div class="row">
           <div class="col-8">
@@ -120,16 +136,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       $nama = $_POST['nama'];
       $no_ktp = $_POST['no_ktp'];
+      $alamat = $_POST['alamat'];
+      $no_hp = $_POST['no_hp'];
 
       $data = [
         'nama' => $nama,
-        'no_ktp' => $no_ktp
+        'no_ktp' => $no_ktp,
+        'alamat' => $alamat,
+        'no_hp' => $no_hp
       ];
 
       
       // Curl POST request
       $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, "https://express.dimaspadma.my.id/pasien/login");
+      curl_setopt($ch, CURLOPT_URL, "https://express.dimaspadma.my.id/pasien/register");
       curl_setopt($ch, CURLOPT_POST, 1);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
       curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
@@ -144,6 +164,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       
       $response = json_decode($output);
       // var_dump($response);
+
+      // exit();
 
       // Error handling
       if (isset($response->error)){

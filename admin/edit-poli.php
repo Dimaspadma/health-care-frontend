@@ -1,20 +1,18 @@
 <?php 
 ob_start();
 
-  if (isset($_POST['tambah-obat'])) {
-    $id = htmlspecialchars($_POST['id']);
-    $nama_obat = htmlspecialchars($_POST['nama_obat']);
-    $kemasan = htmlspecialchars($_POST['kemasan']);
-    $harga = htmlspecialchars($_POST['harga']);
+  if (isset($_POST['tambah-poli'])) {
+    $id = htmlspecialchars($_POST['idPoli']);
+    $nama_poli = htmlspecialchars($_POST['nama_poli']);
+    $keterangan = htmlspecialchars($_POST['keterangan']);
 
     $data = [
-      'nama_obat' => $nama_obat,
-      'kemasan' => $kemasan,
-      'harga' => (int) $harga,
+      'nama_poli' => $nama_poli,
+      'keterangan' => $keterangan
     ];
 
     // curl request delete obat
-    $ch = curl_init('https://express.dimaspadma.my.id/obat/'.$id);
+    $ch = curl_init('https://express.dimaspadma.my.id/poli/'.$id);
 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
@@ -33,11 +31,11 @@ ob_start();
     // Check if response
     // Check if curl request is success
     if (isset($response->error)) {
-      header("Location: daftar-obat.php?status=fail&message=Obat Gagal Diubah");
+      header("Location: daftar-poli.php?status=fail&message=poli Gagal Diubah");
       exit();
     }
 
-    header("Location: daftar-obat.php?status=success&message=Obat Berhasil Diubah");
+    header("Location: daftar-poli.php?status=success&message=poli Berhasil Diubah");
     exit();
   }
 

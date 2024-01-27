@@ -275,7 +275,7 @@ if(isset($_GET['status'])){
   // Remove status from url via javascript
   echo <<<EOL
   <script>
-    window.history.replaceState({}, document.title, "/" + "puskesmas/pasien/periksa.php");
+    window.history.replaceState({}, document.title, "/" + "/pasien/periksa.php");
   </script>
   EOL;
 }

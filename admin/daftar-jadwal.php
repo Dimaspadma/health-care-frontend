@@ -22,6 +22,7 @@
           <th>Jam Mulai</th>
           <th>Jam Selesai</th>
           <th>Poli</th>
+          <th>Status</th>
           <th>Aksi</th>
         </tr>
         </thead>
@@ -165,6 +166,7 @@
               <td>${data.jam_mulai}</td>
               <td>${data.jam_selesai}</td>
               <td>${data.poli.nama_poli}</td>
+              <td>${data.status_periksa ? '<span class="badge badge-success">Aktif</span>' : '<span class="badge badge-danger">Tidak Aktif</span>'}</td>
               <td>
                 <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modal-tambah" data-id="${data.id}">Edit</button>
                 ${data.periksa.length > 0 ? '' : '<button class="btn btn-danger btn-hapus" data-toggle="modal" data-target="#modal-hapus" data-id="'+data.id+'">Hapus</button>'}
@@ -299,7 +301,7 @@ if(isset($_GET['status'])){
   // Remove status from url via javascript
   echo <<<EOL
   <script>
-    window.history.replaceState({}, document.title, "/" + "puskesmas/admin/daftar-jadwal.php");
+    window.history.replaceState({}, document.title, "/" + "admin/daftar-jadwal.php");
   </script>
   EOL;
 }
